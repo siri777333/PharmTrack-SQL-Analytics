@@ -43,6 +43,13 @@ The objective of this project is to design a Pharmacy Management System database
 - CASE Statements
 - Subqueries
 - Business Reporting Queries
+## Analytical Concepts Applied
+- Sales Analysis
+- Revenue Analysis
+- Customer Behavior Analysis
+- Inventory Monitoring
+- Product Performance Analysis
+- Business Reporting
 
 ## Key Business Questions Solved
 
@@ -68,5 +75,30 @@ The objective of this project is to design a Pharmacy Management System database
 
 ## Tools Used
 - MSSQL
+## Sample Analytical Queries
+
+### Top Selling Medicines
+```sql
+SELECT MedicineName,
+       SUM(Quantity) AS TotalSold
+FROM Sales
+GROUP BY MedicineName
+ORDER BY TotalSold DESC;
+```
+## Revenue Analysis
+
+```sql
+SELECT SUM(TotalAmount) AS TotalRevenue
+FROM Sales;
+```
+### Customer Purchase Analysis
+
+```sql
+SELECT CustomerID,
+       COUNT(*) AS TotalPurchases
+FROM Sales
+GROUP BY CustomerID
+ORDER BY TotalPurchases DESC;
+```
 ## Author
 Siri Chandana
