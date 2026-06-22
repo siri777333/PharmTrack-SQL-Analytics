@@ -446,7 +446,9 @@ SELECT
 FROM medicines
 ORDER BY stock_qty ASC;
 ---
--- Top spending customer per city
+
+## Top spending customer per city
+
 SELECT city, customer_name, total_spent
 FROM (
  SELECT c.city, c.customer_name, SUM(s.total_amount) AS total_spent,
@@ -457,7 +459,7 @@ JOIN sales s ON c.customer_id = s.customer_id
 )ranked
 WHERE rnk = 1
 ORDER BY total_spent DESC;
----
+
 
 #  Author
 
