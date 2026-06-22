@@ -413,53 +413,6 @@ The analysis demonstrates how SQL can be used not only for querying data but als
 
 By combining pharmaceutical domain expertise with data analytics, this project showcases the practical application of SQL in improving business performance and operational efficiency.
 
-## Key SQL Queries used
-
--- Rank medicines by revenue within each category
-SELECT
-    m.category,
-    m.medicine_name,
-    SUM(s.total_amount) AS total_revenue,
-    RANK() OVER (PARTITION BY m.category ORDER BY SUM(s.total_amount) DESC) AS rank_in_category
-FROM sales s
-JOIN medicines m ON s.medicine_id = m.medicine_id
-GROUP BY m.category, m.medicine_name
-ORDER BY m.category, rank_in_category;
----
--- Stock Status Report (morning check)
-SELECT
-    medicine_name,
-    category,
-    stock_qty,
-    expiry_date,
-    CASE
-        WHEN stock_qty < 80  THEN 'CRITICAL – Reorder Immediately'
-        WHEN stock_qty < 130 THEN 'Low – Reorder Soon'
-        WHEN stock_qty < 200 THEN 'Moderate – Monitor Stock'
-        ELSE 'Sufficient Stock'
-    END AS stock_status,
-    CASE
-        WHEN expiry_date < GETDATE() THEN 'EXPIRED'
-        WHEN expiry_date < DATEADD(MONTH,3,GETDATE()) THEN 'Expiring Soon'
-        ELSE 'Valid'
-    END AS expiry_status
-FROM medicines
-ORDER BY stock_qty ASC;
----
-
-## Top spending customer per city
-
-SELECT city, customer_name, total_spent
-FROM (
- SELECT c.city, c.customer_name, SUM(s.total_amount) AS total_spent,
- RANK() OVER (PARTITION BY c.city ORDER BY SUM(s.total_amount) DESC) AS rnk
- FROM customers c
-JOIN sales s ON c.customer_id = s.customer_id
- GROUP BY c.city, c.customer_name
-)ranked
-WHERE rnk = 1
-ORDER BY total_spent DESC;
-
 
 #  Author
 
